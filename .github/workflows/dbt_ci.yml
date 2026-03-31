@@ -1,0 +1,68 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dbt_project/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'dbt_project/**'
+
+jobs:
+  dbt-test:
+    name: dbt compile + test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: analytics
+          POSTGRES_PASSWORD: analytics
+          POSTGRES_DB: ecommerce
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install dbt-postgres==1.7.0
+
+      - name: Init raw schema
+        run: |
+          psql postgresql://analytics:analytics@localhost:5432/ecommerce \
+            -f ingestion/init.sql
+        env:
+          PGPASSWORD: analytics
+
+      - name: dbt debug
+        working-directory: dbt_project
+        run: dbt debug --profiles-dir .
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: analytics
+          POSTGRES_PASSWORD: analytics
+          POSTGRES_DB: ecommerce
+
+      - name: dbt compile
+        working-directory: dbt_project
+        run: dbt compile --profiles-dir .
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: analytics
+          POSTGRES_PASSWORD: analytics
+          POSTGRES_DB: ecommerce

@@ -1,0 +1,19 @@
+# Data files (download from Kaggle)
+data/
+*.csv
+*.xlsx
+
+# dbt artifacts
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.env
+
+# IDE
+.vscode/
+.idea/

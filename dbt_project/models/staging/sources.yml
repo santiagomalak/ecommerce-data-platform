@@ -1,0 +1,37 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Raw Olist e-commerce data loaded from CSV"
+    tables:
+      - name: orders
+        description: "All orders placed on the platform"
+        columns:
+          - name: order_id
+            tests: [unique, not_null]
+      - name: order_items
+        description: "Line items for each order"
+      - name: order_payments
+        description: "Payment records per order"
+      - name: order_reviews
+        description: "Customer reviews per order"
+      - name: customers
+        description: "Customer dimension table"
+        columns:
+          - name: customer_id
+            tests: [unique, not_null]
+      - name: sellers
+        description: "Seller dimension table"
+        columns:
+          - name: seller_id
+            tests: [unique, not_null]
+      - name: products
+        description: "Product catalog"
+        columns:
+          - name: product_id
+            tests: [unique, not_null]
+      - name: product_category_translation
+        description: "Portuguese to English category names"
+      - name: geolocation
+        description: "Zip code geolocation data"
