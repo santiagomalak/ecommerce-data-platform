@@ -118,4 +118,4 @@ GitHub Actions corre `dbt compile` automáticamente en cada push a `main` que mo
 
 ---
 
-**Autor:** Santiago Aragon — [Portfolio](https://santiagomalak.is-a.dev) · [LinkedIn](https://linkedin.com/in/aragonmalak)
+**Autor:** Santiago Malak — [Portfolio](https://santiagomalak.is-a.dev) · [LinkedIn](https://linkedin.com/in/aragonmalak)
