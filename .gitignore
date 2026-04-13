@@ -17,3 +17,6 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+
+# Claude Code local settings (may contain credentials)
+.claude/
